@@ -1,0 +1,20 @@
+<script>
+    function deleteItemFromExpense(time, category) {
+       
+		alert("dlt expence ? : " +
+				" you will delete this expence");
+   
+	console.log(time, category, "cat");
+	var newExpenseArray = []
+	console.log(expenses, "expenses")
+	expenses.forEach((ele) => {
+		console.log(ele.time, time)
+		if (`${ele.time}` !== time) {
+			newExpenseArray.push(ele)
+		}
+	})
+	expenses = newExpenseArray
+	localStorage.setItem('expence', JSON.stringify(newExpenseArray));
+	loadExpenseByCategory(category)
+}
+</script>

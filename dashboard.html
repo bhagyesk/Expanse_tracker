@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>navbar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width,inital-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <h1><a href="#" class="navbar-brand"> Expence tracker </a></h1>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mynav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynav">
+                <ul class="navbar-nav ml-auto text-center">
+                    <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="addexp.html">Add Expence</a></li>
+                    <li class="nav-item"><a class="nav-link" href="addcat.html">Add category</a></li>
+                    <li class="nav-item"><a class="nav-link" href="addtotalexp.html">Adding total Expence</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>category list</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+</head>
+
+<body>
+    <div class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">edit</th>
+                                    <th scope="col">delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryTable">
+                                <!-- <tr align="left">
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">edit</th>
+                                    <th scope="col">delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!DOCTYPE html>
+
+    <body>
+        <div class="container">
+            <div class="row col-md-6 col-md-offset-3">
+                <div class="panel panel-primary ">
+                    <div class="panel-heading text-center">
+                        <h1> expence</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="category">Expences limit</label>
+                        </div>
+                        <span id="txpp"></span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="category"> total expence limit</label>
+                        </div>
+                        <span id="txp"></span>
+                    </div>
+
+                </div>
+            </div>
+    </body>
+</body>
+<span id="try"></span>
+<script>
+
+    var select = document.getElementById('categoryTable');
+    let categories = JSON.parse(localStorage.getItem('category'));
+    let categoryRows = '', categoryCount = 1;
+    let expenses = JSON.parse(localStorage.getItem('expence'));
+
+    loadCategory();
+
+    function loadCategory() {
+        select.innerHTML = '';
+        categoryRows = '';
+        categoryCount = 1;
+
+        categories.forEach(element => {
+            categoryRows += `
+                <tr align="left">
+                    <th scope="row">${categoryCount}</th>
+                    <td onClick=loadExpenseByCategory('${element.category}')>${element.category}</td>
+                    <td>
+                                <a href="ecat.html?times=${element.times}"">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                            <td >
+                                    <span class="glyphicon glyphicon-trash" onClick="deleteCategory('${element.category}')"></span>
+                            </td>
+                </tr>`
+            categoryCount++;
+        });
+
+        select.innerHTML = categoryRows;
+    }
+
+
+    function loadExpenseByCategory(param) {
+        var selectExpense = document.getElementById('expenseTable');
+        let expenseRows = '', expenseCount = 1;
+
+        expenses.forEach(element => {
+            if (element.category == param) {
+                expenseRows += `
+                    <tr align="left">   
+                        <th scope="row">1</th>
+                        <td>${element.title}</td>
+                        <td>${element.amount}</td>
+                        <td>
+                            <a href="editexpense.html?time=${element.time}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                        <td onClick="deleteItemFromExpense('${element.time}', '${param}')">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </div>
+                        </td>
+                    </tr>`
+            }
+        });
+        selectExpense.innerHTML = expenseRows;
+
+        // console.log(expenseRows);
+
+
+        var select1 = document.getElementById('txpp');
+        let expense = JSON.parse(localStorage.getItem('category'));
+        let expenseRow = '', expenseCoun = 1;
+        expense.forEach(element => {
+            if (element.category == param) {
+                expenseRow += ` ${element.explimit}`
+            }
+        });
+        select1.innerHTML = expenseRow;
+    }
+    let txp;
+    document.getElementById("txp").innerHTML = localStorage.getItem("txp");
+
+    function deleteItemFromExpense(time, category) {
+
+        alert("dlt expence ? : " +
+            " you will delete this expence");
+
+        console.log(time, category, "cat");
+        var newExpenseArray = []
+        console.log(expenses, "expenses")
+        expenses.forEach((ele) => {
+            console.log(ele.time, time)
+            if (`${ele.time}` !== time) {
+                newExpenseArray.push(ele)
+            }
+        })
+        expenses = newExpenseArray
+        localStorage.setItem('expence', JSON.stringify(newExpenseArray));
+        loadExpenseByCategory(category)
+    }
+
+    function deleteCategory(category) {
+        console.log(category);
+        var newExpenseArray = []
+        expenses.forEach((ele) => {
+            if (ele.category != category) {
+                newExpenseArray.push(ele)
+            }
+        });
+        expenses = newExpenseArray
+        localStorage.setItem('expence', JSON.stringify(newExpenseArray));
+
+        var newCategoryArray = []
+        categories.forEach((ele) => {
+            if (ele.category != category) {
+                newCategoryArray.push(ele)
+            }
+        });
+
+        categories = newCategoryArray;
+        localStorage.setItem('category', JSON.stringify(newCategoryArray));
+        loadCategory();
+    }
+</script>
+
+</html>
